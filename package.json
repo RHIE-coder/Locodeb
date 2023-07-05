@@ -1,0 +1,38 @@
+{
+  "name": "locodeb",
+  "version": "0.0.1",
+  "description": "local environment-based tools for rapid blockchain development",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RHIE-coder/Locodeb.git"
+  },
+  "keywords": [
+    "blockchain",
+    "dev-tools",
+    "apis",
+    "web"
+  ],
+  "author": "rhie-coder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RHIE-coder/Locodeb/issues"
+  },
+  "homepage": "https://github.com/RHIE-coder/Locodeb#readme",
+  "dependencies": {
+    "@eth-optimism/contracts": "^0.6.0",
+    "@eth-optimism/sdk": "^3.0.0",
+    "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "ethers": "^5.7.2",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}

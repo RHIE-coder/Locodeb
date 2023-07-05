@@ -128,3 +128,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# visual studio setting files
+.vscode
+
+# local database files
+*.db
+
+# external github project
+.external-github-project
