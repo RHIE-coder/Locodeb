@@ -135,5 +135,6 @@ dist
 # local database files
 *.db
 
-# external github project
+# external github project & practice project
 .external-github-project
+.sandbox

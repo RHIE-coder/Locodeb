@@ -25,6 +25,7 @@
   "homepage": "https://github.com/RHIE-coder/Locodeb#readme",
   "dependencies": {
     "@eth-optimism/contracts": "^0.6.0",
+    "@eth-optimism/contracts-bedrock": "^0.15.0",
     "@eth-optimism/sdk": "^3.0.0",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
