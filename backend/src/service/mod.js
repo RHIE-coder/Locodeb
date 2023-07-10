@@ -191,7 +191,6 @@ export const actions = {
             console.log("Deposit ETH")
             await reportBalances()
             const start = new Date()
-
             const response = await crossChainMessenger.depositETH(1n * eth)
             console.log(`Transaction hash (on L1): ${response.hash}`)
             await response.wait()
@@ -199,8 +198,6 @@ export const actions = {
             console.log(`Time so far ${(new Date() - start) / 1000} seconds`)
             await crossChainMessenger.waitForMessageStatus(response.hash,
                 optimismSDK.MessageStatus.RELAYED)
-
-            await reportBalances()
             console.log(`depositETH took ${(new Date() - start) / 1000} seconds\n\n`)
         }     // depositETH()
 

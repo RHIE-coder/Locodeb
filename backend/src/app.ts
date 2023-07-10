@@ -1,8 +1,8 @@
-import express from 'express';
+import {Express,Request,Response} from 'express';
 import http from 'http';
 import path from 'path';
 
-const app = express();
+const app:Express = Express();
 const port = 5005
 
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +16,8 @@ app.use("/", (req, res) => {
     });
     req.next()
 });
+
+app.use()
 
 // Running Server
 http.createServer(app).listen(port, () => {
