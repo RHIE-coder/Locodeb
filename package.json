@@ -27,6 +27,7 @@
     "@eth-optimism/contracts": "^0.6.0",
     "@eth-optimism/contracts-bedrock": "^0.15.0",
     "@eth-optimism/sdk": "^3.0.0",
+    "@openzeppelin/contracts": "^4.9.2",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
