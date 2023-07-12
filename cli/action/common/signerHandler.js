@@ -5,10 +5,11 @@ require('dotenv').config({
 const Wallet = require('../../lib/wallet');
 const JUNK_MNEMONIC = process.env['JUNK_MNEMONIC'];
 const USER_MNEMONIC = process.env['USER_MNEMONIC'];
+const GANACHE_MNEMONIC = process.env['GANACHE_MNEMONIC'];
 const config = require('../../config');
 const L1_URL = config.Network.LOCAL_L1_BLOCKCHAIN_URL;
 const L2_URL = config.Network.LOCAL_L2_BLOCKCHAIN_URL;
-
+const GANACHE_URL = "http://192.168.100.73:8999";
 
 const SIGNER_LIST = {
     L1JunkSigner: Wallet.Signer.connectProviderWithSigner({
@@ -28,6 +29,16 @@ const SIGNER_LIST = {
     }),
     L2UserSigner: Wallet.Signer.connectProviderWithSigner({
         signer: Wallet.Signer.createSignerByMnemonic(USER_MNEMONIC),
+        url: L2_URL,
+        type: 'jsonrpc',
+    }),
+    L1GanacheSigner: Wallet.Signer.connectProviderWithSigner({
+        signer: Wallet.Signer.createSignerByMnemonic(GANACHE_MNEMONIC),
+        url: GANACHE_URL,
+        type: 'jsonrpc',
+    }),
+    L2GanacheSigner: Wallet.Signer.connectProviderWithSigner({
+        signer: Wallet.Signer.createSignerByMnemonic(GANACHE_MNEMONIC),
         url: L2_URL,
         type: 'jsonrpc',
     }),
