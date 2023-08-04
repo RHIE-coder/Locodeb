@@ -1,0 +1,15 @@
+{
+  "name": "hardhat-project",
+  "scripts": {
+    "remixd": "remixd -s ./blockchain/chaincode/contracts -u https://remix.ethereum.org",
+    "hardhat-node": "cd ./blockchain/chaincode & hardhat node --port 10545"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.17.1"
+  },
+  "dependencies": {
+    "@eth-optimism/contracts-bedrock": "^0.16.0",
+    "@openzeppelin/contracts": "^4.9.3"
+  }
+}

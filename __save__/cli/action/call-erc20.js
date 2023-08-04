@@ -5,7 +5,7 @@ const signerHandler = require("./common/signerHandler");
 const addressHandler = require("./common/addressHandler");
 
 const L1_CONTRACT_ADDRESS = "0x56c8d298f270E200645F01A3E4fD474C9F169430";
-const L2_CONTRACT_ADDRESS = "0x247cA0CCacC1d098178da58Df584020a3B736Cb4";
+const L2_CONTRACT_ADDRESS = "0x56c8d298f270E200645F01A3E4fD474C9F169430";
 module.exports = async(args)=>{
     const who = addressHandler.ADDRESS_LIST[args[0].toUpperCase()] ?? args[0];
     const l1Signer = signerHandler.parseSigner(`l1_junk`);

@@ -1,23 +1,24 @@
-import {Express,Request,Response} from 'express';
+import express, {Express,Request,Response, NextFunction} from 'express';
 import http from 'http';
 import path from 'path';
 
-const app:Express = Express();
-const port = 5005
+const port: number = 5005;
+
+const app: Express = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Request Logging on Console
-app.use("/", (req, res) => {
+app.use("/", (req:Request, res:Response, next: NextFunction) => {
     console.log({
         method: req.method,
         url: req.url
     });
-    req.next()
+
+    next()
 });
 
-app.use()
 
 // Running Server
 http.createServer(app).listen(port, () => {
