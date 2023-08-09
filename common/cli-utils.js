@@ -54,20 +54,23 @@ class Font {
     const fontMsg = `\x1b[${style ? style+";":""}${background_color};${color}m${message}\x1b[0m`
     return fontMsg
   }
-
 }
 
-function $cli(stringArg, options) {
+function $cli(cmd, options) {
 
   return new Promise((resolve, reject)=>{
-    const command = stringArg[0].split(" ");
-    const action = command[0];
+    const commandLine = cmd[0].split(" ");
+    const action = commandLine[0];
     const cmdArgs = [];
+
+    options = options ?? $cli.options ?? {};
+    options.cwd = options.cwd ?? null;
+    options.env = options.env ?? null;
     
     if(options.cwd) {
-      cmdArgs.push(...command.slice(1, command.length-1))
+      cmdArgs.push(...commandLine.slice(1, commandLine.length-1))
     } else {
-      cmdArgs.push(...command.slice(1))
+      cmdArgs.push(...commandLine.slice(1))
     }
 
     const origin_cmd_msg = ` ${action+" "+cmdArgs.join(" ")}`
@@ -76,33 +79,34 @@ function $cli(stringArg, options) {
       color: Font.COLOR.YELLOW,
       background_color: Font.BACKGROUND_COLOR.GREEN, 
     })
-    const delimit = Font.parse(" : ", {
+    const delimit = Font.parse(" = ", {
       style: Font.STYLE.BOLD,
       color: Font.COLOR.YELLOW,
       background_color: Font.BACKGROUND_COLOR.GREEN, 
     })
     console.log(instMsg + delimit + origin_cmd_msg)
 
-    const baseSpawnOption = {
+    const spawnOption = {
       stdio: 'inherit',
     }
 
     if(options.cwd) {
-      baseSpawnOption.cwd = options.cwd;
+      spawnOption.cwd = options.cwd;
     }
 
-    baseSpawnOption.env = {
+    spawnOption.env = {
       ...process.env,
     }
 
     if(options.env) {
-      baseSpawnOption.env = {
-        ...baseSpawnOption.env,
+      spawnOption.env = {
+        ...spawnOption.env,
         ...options.env
       }
     }
 
-    const executed = spawn(action, cmdArgs, baseSpawnOption);
+    const executed = spawn(action, cmdArgs, spawnOption);
+
     executed.on('exit', (code,signal)=>{
       console.log(`EXIT: code=${code}, signal=${signal}`)
       if(code == 0) {

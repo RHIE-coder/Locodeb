@@ -1,12 +1,6 @@
 const path = require('path');
-const { $cli } = require('../../../common/cli-utils')
-const axios = require('axios');
+const { $cli } = require('../../../common/cliutils')
 const fsAync = require('fs/promises');
-
-async function parseHexToNumber(hexString) {
-    return parseInt(hexString, 16)
-}
-
 
 async function localAction() {
 
