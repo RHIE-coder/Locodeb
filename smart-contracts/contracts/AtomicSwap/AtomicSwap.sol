@@ -41,5 +41,5 @@ import "@openzeppelin/contracts@4.8.3/token/ERC20/ERC20.sol";
  For safety, both should complete the process with lots of time until the deadlines.
 */
 contract AtomicSwap {
-
+    
 }
