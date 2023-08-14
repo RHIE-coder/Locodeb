@@ -44,7 +44,7 @@ After 3: Transaction is completed by 2
 
 For safety, both should complete the process with lots of time until the deadlines.
 */
-contract ERC20AtomicSwap {
+contract ERC20AtomicSwap is Ownable{
 
     struct Swap {
         address tokenAddress;
@@ -58,6 +58,7 @@ contract ERC20AtomicSwap {
      * @dev 
      */
     enum Stage {
+        INVALID,
         PENDING,
         COMPLETED,
         CANCELED
@@ -72,7 +73,7 @@ contract ERC20AtomicSwap {
     /**
      * @dev 
      */
-    function swap(address tokenAddress_,address initiator_, address receiver_, bytes32 secretHash_, uint256 amount_) public {
+    function createSwap(address tokenAddress_,address initiator_, address receiver_, bytes32 secretHash_, uint256 amount_) public onlyOwner {
 
         require(amount_ != 0, "the amount cannot be zero");
 
@@ -83,6 +84,8 @@ contract ERC20AtomicSwap {
         if(allowedAmount == 0 || allowedAmount < amount_) {
             revert InsufficientAllowance(tokenAddress_, initiator_, address(this), amount_, allowedAmount);
         }
+
+        require(_swapStatus[secretHash_] == Stage.INVALID, "hash is already exists");
         
         Swap memory initSwap = Swap({
             tokenAddress: tokenAddress_,
@@ -100,19 +103,10 @@ contract ERC20AtomicSwap {
 
     }
 
-
-    function checkSwap(bytes32 secretHash_) public view returns(Swap memory) {
-        return _swaps[secretHash_];
-    }
-
-    function verifySecret(bytes memory secret_, bytes32 secretHash_) public view returns(bool) {
-        return _swaps[secretHash_].secretHash == keccak256(abi.encodePacked(secret_));
-    }
-
     /**
      * @dev Redeem ERC20 token 
      */
-    function redeem(bytes memory secret_, bytes32 secretHash_) public {
+    function redeem(bytes memory secret_, bytes32 secretHash_) public onlyOwner {
 
         require(_swapStatus[secretHash_] != Stage.COMPLETED, "swap is already completed");
 
@@ -131,8 +125,8 @@ contract ERC20AtomicSwap {
     /**
      * @dev Refund ERC20 token
      */
-    function refund(bytes32 secretHash_) public {
-        require(_swapStatus[secretHash_] == Stage.CANCELED, "swap is already canceled");
+    function refund(bytes32 secretHash_) public onlyOwner {
+        require(_swapStatus[secretHash_] != Stage.CANCELED, "swap is already canceled");
         require(_swapStatus[secretHash_] != Stage.COMPLETED, "swap is already completed");
 
         Swap memory pendingSwap = _swaps[secretHash_];
@@ -145,11 +139,25 @@ contract ERC20AtomicSwap {
         _swapStatus[secretHash_] = Stage.CANCELED;
     }
 
-    // /**
-    //  * @dev Check whether the swap is already redeemed or not
-    //  */
-    // function redemption(bytes32 secretHash) external returns(bool);
+    function getSwap(bytes32 secretHash_) public view returns(Swap memory) {
+        return _swaps[secretHash_];
+    }
+
+    /**
+     * @dev Check whether the swap is already redeemed or not
+     */
+    function isRedeemed(bytes32 secretHash) public view returns(bool) {
+        require(_swapStatus[secretHash] != Stage.INVALID, "swap hash is not valid");
+        return _swapStatus[secretHash] == Stage.COMPLETED ? true : false;
+    }
 
     
+    /**
+     * @dev Check whether the swap is already refunded or not
+     */
+    function isRefunded(bytes32 secretHash) public view returns(bool) {
+        require(_swapStatus[secretHash] != Stage.INVALID, "swap hash is not valid");
+        return _swapStatus[secretHash] == Stage.CANCELED ? true : false;
+    }
 
 }
